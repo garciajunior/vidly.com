@@ -53,12 +53,17 @@ const Rental = mongoose.model(
     },
   })
 );
-function validateRental(rental) {
+async function validateRental(rental) {
   const schema = Joi.object({
     customerId: Joi.objectId().required(),
     videoId: Joi.objectId().required(),
   });
-  return schema.validate(rental);
+  try {
+    const value = await schema.validateAsync(rental);
+    return value;
+  } catch (err) {
+    throw new Error(err);
+  }
 }
 exports.Rental = Rental;
 exports.validateRental = validateRental;

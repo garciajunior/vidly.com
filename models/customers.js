@@ -10,14 +10,19 @@ const customersSchema = new mongoose.Schema({
 
 const Custumer = mongoose.model("Custumer", customersSchema);
 
-function validateCustumers(custumer) {
+async function validateCustumers(custumer) {
   const schema = Joi.object({
     name: Joi.string().min(5).required(),
     age: Joi.number().integer(),
     email: Joi.string().email().max(100),
     genre: Joi.string().min(4).required(),
   });
-  return schema.validate(custumer);
+  try {
+    const value = await schema.validateAsync(custumer);
+    return value;
+  } catch (err) {
+    throw new Error(err);
+  }
 }
 
 exports.Custumer = Custumer;

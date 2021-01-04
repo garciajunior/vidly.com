@@ -6,13 +6,19 @@ const genreSchema = new mongoose.Schema({
 
 const Genre = mongoose.model("Genre", genreSchema);
 
-function validadeSchema(genre) {
+async function validadeSchema(genre) {
   const schema = Joi.object({
     name: Joi.string().min(5).max(50),
   });
 
-  return schema.validate(genre);
+  try {
+    const value = await schema.validateAsync(genre);
+    return value;
+  } catch (err) {
+    throw new Error(err);
+  }
 }
+
 exports.Genre = Genre;
 exports.genreSchema = genreSchema;
 exports.validate = validadeSchema;

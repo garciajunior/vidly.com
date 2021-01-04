@@ -35,12 +35,11 @@ async function validateVideo(video) {
   });
 
   try {
-    const value = await schema.validateAsync({ video });
+    const value = await schema.validateAsync(video);
     return value;
-}
-catch (err) { 
-  console.log(err);
-}
+  } catch (err) {
+  throw new Error(err);
+  }
 }
 
 exports.Video = Video;
